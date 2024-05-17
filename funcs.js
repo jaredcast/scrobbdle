@@ -35,9 +35,11 @@ const getAccessToken = () => {
   }
 
 const getArtistImg = async (access_token) => {
-  const randomArtist  = await getLibrary('jaredcast');
+  var randomArtist  = await getLibrary('jaredcast');
+  randomArtist = randomArtist.replace(' ', '+');
   // console.log('Artist inside getartistimg', randomArtist)
   const searchUrl = `https://api.spotify.com/v1/search?q=${randomArtist}&type=artist`
+  console.log('Random artist', randomArtist);
   console.log('Spotify search url for image - getArtistImg function,',searchUrl);
   // const data = {
   //   q: "beethoven",
@@ -67,23 +69,18 @@ const getLibrary = async (username) => {
   const apiUrl = `http://ws.audioscrobbler.com/2.0/?method=library.getArtists&user=${username}&api_key=${lastfmApiKey}&format=json&page=${pageNum}`;
   console.log("Lastfm api url inside getLibrary function")
   console.log(apiUrl);
-  fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-          var artists = data.artists.artist;
-          // console.log(artists)
-          var randomInt = Math.floor(Math.random() * artists.length);
-          var randomArtist = artists[randomInt];
-          var artistName = randomArtist.name;
-          var artistScrobbles = randomArtist.playcount;
-          // console.log(randomArtist.image[3]["#text"])
-          console.log("Artist name inside getLibrary function", artistName);
-          // startGame(artistName, artistScrobbles);
-          return artistName;
-      })
-      .catch(error => {
-          console.log("ERROR: " + error);
-      });;
+  const response = await fetch(apiUrl);
+  const data = await response.json();
+  var artists = data.artists.artist;
+  // console.log(artists)
+  var randomInt = Math.floor(Math.random() * artists.length);
+  var randomArtist = artists[randomInt];
+  var artistName = randomArtist.name;
+  var artistScrobbles = randomArtist.playcount;
+  // console.log(randomArtist.image[3]["#text"])
+  console.log("Artist name inside getLibrary function", artistName);
+  // startGame(artistName, artistScrobbles);
+  return artistName;
 }
 
 
