@@ -2,41 +2,37 @@ import {lastfmApiKey, spotifyID, spotifyClientSecret, spotifyClientId} from "./a
 
 const submitBtn = document.querySelector('.submitBtn')
 
-let accessToken = "temp"
+let accessToken = "temp";
 
-const getAccessToken = () => {
+//Get the access tokens to use for Spotify
+const getAccessToken = async () => {
     const tokenUrl = 'https://accounts.spotify.com/api/token';
   
-    const data = {
+    const spotifyInfo = {
       grant_type: 'client_credentials',
       client_id: spotifyClientId,
       client_secret: spotifyClientSecret
     };
-  
-    return fetch(tokenUrl, {
+    const response = await fetch(tokenUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       // body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
-      body: new URLSearchParams(data)
+      body: new URLSearchParams(spotifyInfo)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Spotify access token data')
-        console.log(data)
-        console.log("Access Token Before:",accessToken)
-        accessToken = data.access_token;
-        console.log('Access Token After:', accessToken);
-        return accessToken;
-        
-    })
-    .catch(error => console.error('Error:', error));
+    const tokenData = await response.json();
+    console.log('Spotify access token data')
+    console.log(tokenData)
+    console.log("Access Token Before:",accessToken)
+    accessToken = tokenData.access_token;
+    console.log('Access Token After:', accessToken);
+    return accessToken;
   }
 
 const getArtistImg = async (access_token) => {
   var randomArtist  = await getLibrary('jaredcast');
-  randomArtist = randomArtist.replace(' ', '+');
+  randomArtist = randomArtist.replaceAll(' ', '+');
   // console.log('Artist inside getartistimg', randomArtist)
   const searchUrl = `https://api.spotify.com/v1/search?q=${randomArtist}&type=artist`
   console.log('Random artist', randomArtist);
@@ -57,6 +53,7 @@ const getArtistImg = async (access_token) => {
     console.log(data)
     const artistImg = data.artists.items[0].images[0].url
     console.log(artistImg);
+    startGame();
     // return artistImg;
   })
   
@@ -81,6 +78,11 @@ const getLibrary = async (username) => {
   console.log("Artist name inside getLibrary function", artistName);
   // startGame(artistName, artistScrobbles);
   return artistName;
+}
+
+//Starts the actual game upon successful API requests from Spotify API and LastFM API
+const startGame = () => {
+  // console.log("GAME BEGINS");
 }
 
 
