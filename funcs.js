@@ -34,34 +34,38 @@ const getAccessToken = () => {
     .catch(error => console.error('Error:', error));
   }
 
-const getArtistImg = (access_token) => {
-  const randomArtist  = getLibrary('jaredcast');
-  const searchUrl = "https://api.spotify.com/v1/search?q=stereolab&type=artist"
+const getArtistImg = async (access_token) => {
+  const randomArtist  = await getLibrary('jaredcast');
+  // console.log('Artist inside getartistimg', randomArtist)
+  const searchUrl = `https://api.spotify.com/v1/search?q=${randomArtist}&type=artist`
+  console.log('Spotify search url for image - getArtistImg function,',searchUrl);
   // const data = {
   //   q: "beethoven",
   //   type: "artist"
   // } this wont work - Uncaught (in promise) TypeError: Failed to execute 'fetch' on 'Window': Request with GET/HEAD method cannot have body.
-  // return fetch(searchUrl, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Authorization' : `Bearer ${access_token}`
-  //   },
-  // })
-  // .then(response => response.json())
-  // .then(data => {
-  //   console.log(data)
-  //   const artistImg = data.artists.items[0].images[0].url
-  //   console.log(artistImg);
-  // })
-  console.log('Artist inside getartistimg', randomArtist)
-  return randomArtist
+  return fetch(searchUrl, {
+    method: 'GET',
+    headers: {
+      'Authorization' : `Bearer ${access_token}`
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Spotify data - getArtistImg function")
+    console.log(data)
+    const artistImg = data.artists.items[0].images[0].url
+    console.log(artistImg);
+    // return artistImg;
+  })
+  
+  // return randomArtist
 }
 
-const getLibrary = (username) => {
+const getLibrary = async (username) => {
   const pageNum = Math.floor(Math.random() * 10) + 1;
   // const apiUrl = `http://ws.audioscrobbler.com/2.0/?method=library.getartists&api_key=${apiKey}&user=${username}&format=json`;
   const apiUrl = `http://ws.audioscrobbler.com/2.0/?method=library.getArtists&user=${username}&api_key=${lastfmApiKey}&format=json&page=${pageNum}`;
-  console.log("Lastfm api url")
+  console.log("Lastfm api url inside getLibrary function")
   console.log(apiUrl);
   fetch(apiUrl)
       .then(response => response.json())
@@ -73,7 +77,7 @@ const getLibrary = (username) => {
           var artistName = randomArtist.name;
           var artistScrobbles = randomArtist.playcount;
           // console.log(randomArtist.image[3]["#text"])
-          console.log("Artist name inside function", artistName);
+          console.log("Artist name inside getLibrary function", artistName);
           // startGame(artistName, artistScrobbles);
           return artistName;
       })
