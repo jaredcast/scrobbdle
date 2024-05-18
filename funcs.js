@@ -1,8 +1,10 @@
 import {lastfmApiKey, spotifyID, spotifyClientSecret, spotifyClientId} from "./api.js";
 
-const submitBtn = document.querySelector('.submitBtn')
-
+const submitBtn = document.querySelector('.submitBtn');
+const game = document.querySelector('.game');
+const artistPhoto = document.querySelector('.artistPhoto');
 let accessToken = "temp";
+let artistImg = ""
 
 //Get the access tokens to use for Spotify
 const getAccessToken = async () => {
@@ -51,7 +53,7 @@ const getArtistImg = async (access_token) => {
   .then(data => {
     console.log("Spotify data - getArtistImg function")
     console.log(data)
-    const artistImg = data.artists.items[0].images[0].url
+    artistImg = data.artists.items[0].images[0].url
     console.log(artistImg);
     startGame();
     // return artistImg;
@@ -82,7 +84,9 @@ const getLibrary = async (username) => {
 
 //Starts the actual game upon successful API requests from Spotify API and LastFM API
 const startGame = () => {
-  // console.log("GAME BEGINS");
+  console.log("GAME BEGINS");
+  game.style.display = '';
+  artistPhoto.src=artistImg;
 }
 
 
