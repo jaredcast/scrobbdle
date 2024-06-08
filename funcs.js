@@ -3,8 +3,10 @@ import {lastfmApiKey, spotifyID, spotifyClientSecret, spotifyClientId} from "./a
 const submitBtn = document.querySelector('.submitBtn');
 const game = document.querySelector('.game');
 const artistPhoto = document.querySelector('.artistPhoto');
+const artistNameDisplay = document.querySelector('.artistName');
 let accessToken = "temp";
-let artistImg = ""
+let artistImg = "";
+let artistName = "";
 
 //Get the access tokens to use for Spotify
 const getAccessToken = async () => {
@@ -32,13 +34,14 @@ const getAccessToken = async () => {
     return accessToken;
   }
 
+//Gets the artist's image from Spotify
 const getArtistImg = async (access_token) => {
   var randomArtist  = await getLibrary('jaredcast');
   randomArtist = randomArtist.replaceAll(' ', '+');
   // console.log('Artist inside getartistimg', randomArtist)
   const searchUrl = `https://api.spotify.com/v1/search?q=${randomArtist}&type=artist`
   console.log('Random artist', randomArtist);
-  console.log('Spotify search url for image - getArtistImg function,',searchUrl);
+  console.log('Spotify search url to get image - getArtistImg function,',searchUrl);
   // const data = {
   //   q: "beethoven",
   //   type: "artist"
@@ -61,7 +64,7 @@ const getArtistImg = async (access_token) => {
   
   // return randomArtist
 }
-
+//Gets the users lastfm library.
 const getLibrary = async (username) => {
   const pageNum = Math.floor(Math.random() * 10) + 1;
   // const apiUrl = `http://ws.audioscrobbler.com/2.0/?method=library.getartists&api_key=${apiKey}&user=${username}&format=json`;
@@ -74,7 +77,7 @@ const getLibrary = async (username) => {
   // console.log(artists)
   var randomInt = Math.floor(Math.random() * artists.length);
   var randomArtist = artists[randomInt];
-  var artistName = randomArtist.name;
+  artistName = randomArtist.name;
   var artistScrobbles = randomArtist.playcount;
   // console.log(randomArtist.image[3]["#text"])
   console.log("Artist name inside getLibrary function", artistName);
@@ -87,6 +90,7 @@ const startGame = () => {
   console.log("GAME BEGINS");
   game.style.display = '';
   artistPhoto.src=artistImg;
+  artistNameDisplay.textContent = artistName;
 }
 
 

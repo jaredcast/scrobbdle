@@ -1,3 +1,38 @@
+.title {
+    justify-content: center;
+    display: flex;
+}
+
+
+.game {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.artistName {
+    font-size: 30px;
+    margin: 10px;
+}
+
 .artistPhoto {
     max-height:300px;
+    margin: 0px 20px 20px 20px;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center; */
+    /* display: block;
+    text-align: center; */
+}
+
+.guess {
+    display: flex;
+    width: 300px;
+}
+
+.lastfm_user_label, .user_form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
