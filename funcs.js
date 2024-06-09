@@ -4,9 +4,11 @@ const submitBtn = document.querySelector('.submitBtn');
 const game = document.querySelector('.game');
 const artistPhoto = document.querySelector('.artistPhoto');
 const artistNameDisplay = document.querySelector('.artistName');
+const guessCount = document.querySelector('.guessCount');
 let accessToken = "temp";
 let artistImg = "";
 let artistName = "";
+let guessCountNum = 1;
 
 //Get the access tokens to use for Spotify
 const getAccessToken = async () => {
@@ -91,6 +93,7 @@ const startGame = () => {
   game.style.display = '';
   artistPhoto.src=artistImg;
   artistNameDisplay.textContent = artistName;
+  guessCount.textContent = `Guess: ${guessCountNum}/6`;
 }
 
 

@@ -1,3 +1,7 @@
+p {
+    margin:0;
+}
+
 .title {
     justify-content: center;
     display: flex;
@@ -26,10 +30,39 @@
     text-align: center; */
 }
 
-.guess {
+.guessArea {
     display: flex;
+    flex-direction: column;
     width: 300px;
+    height: 400px;
 }
+
+.guessBlock {
+    display: flex;
+    background-color: gray;
+    width: 300px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    height: 20px;
+}
+
+
+.guessSubmit {
+    display: flex;
+    max-width: 300px;
+}
+
+.guess {
+    /* display: flex; */
+    width: 300px;
+    margin-right: 5px;
+}
+
+.guessCount {
+    margin-bottom: 5px;
+}
+
+
 
 .lastfm_user_label, .user_form {
     display: flex;
